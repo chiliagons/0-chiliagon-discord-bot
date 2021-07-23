@@ -13,4 +13,7 @@ AIRTABLE_BASEKEY='{Your airtable base key}'
 GUILD_ID='{Your discord server ID}'
 ```
 
+- npm install
+- npm start
+
 
