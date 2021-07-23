@@ -3,14 +3,31 @@ var Airtable = require('airtable');
 const client = new Discord.Client();
 require('dotenv').config();
 var ran1, ran2;
+var list =[];
 
 const server = client.guilds.fetch(process.env.GUILD_ID); 
 const mySecret = process.env.DISCORD_TOKEN;
 var base = new Airtable({ apiKey: process.env.AIRTABLE_APIKEY }).base(process.env.AIRTABLE_BASEKEY);
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
+  getUserNames();
+  
 
 });
+
+
+//TODO: improve this function to get data on first call
+async function getUserNames() {
+  base('data').select({
+    view: 'Grid view'
+  }).firstPage((err, records) => {
+    records.forEach(function(record) {
+      console.log('Retrieved', record.get('UName'));
+      list.push(record.get("UName"));
+        });
+  });
+
+}
 
 const HelpEmbed = new Discord.MessageEmbed()
 	.setColor('#0099ff')
@@ -26,43 +43,48 @@ client.on('message', async message => {
   }
 
   if (message.content.startsWith('.register')) {
-    
-    try {
+    getUserNames();
+    console.log(list);
+    if(list.includes(message.author.username)){
+      message.reply('You have already registered!');
+    }
+    else{
+      try {
 
-        base('data').create([
-          {
-            "fields": {
-              "UName": `${message.author.username}`,
-              "Name": `${message.content.slice(10)}`
-            }
+      base('data').create([
+        {
+          "fields": {
+            "UName": `${message.author.username}`,
+            "Name": `${message.content.slice(10)}`
           }
-        ], function(err, records) {
-          if (err) {
-            console.error(err);
-            return;
-          }
-          records.forEach(function(record) {
-            console.log(record.getId());
-          });
+        }
+      ], function(err, records) {
+        if (err) {
+          console.error(err);
+          return;
+        }
+        records.forEach(function(record) {
+          console.log(record.getId());
         });
-        message.reply('You have registered successfully!');
-      }
-      catch (err) {
-        console.log(err);
-      }
+      });
+      message.reply('You have registered successfully!');
+    }
+    catch (err) {
+      console.log(err);
+    }}
+    
 
   }
   if (message.content == '.help') {
-      console.log(message.guild.members)
     message.reply(HelpEmbed);
-
   }
   function roll(){
+    var ran0 =message.guild.members.cache.filter(member => member.roles.cache.has('868139408698781756'))
+  .map(member => member.user.username)  
      ran1 = message.guild.members.cache.random().user;
      ran2 = message.guild.members.cache.random().user;
-     console.log(message.guild.members)
-     console.log(ran1.username)
-     console.log(ran2.username)
+     
+     console.log(ran0)
      if(ran1 === ran2 || ran1.username == 'mickey bot' ){
          roll()
      }
