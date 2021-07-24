@@ -1,19 +1,18 @@
 const Discord = require('discord.js');
 var Airtable = require('airtable');
-const client = new Discord.Client();
+const client = new Discord.Client({fetchAllMembers:true});
 require('dotenv').config();
-var ran1, ran2;
 var list =[];
+var usernames = [];
 
-const server = client.guilds.fetch(process.env.GUILD_ID); 
+const server = client.guilds.fetch('697821982212751409'); 
 const mySecret = process.env.DISCORD_TOKEN;
 var base = new Airtable({ apiKey: process.env.AIRTABLE_APIKEY }).base(process.env.AIRTABLE_BASEKEY);
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
   getUserNames();
-  
-
 });
+
 
 
 //TODO: improve this function to get data on first call
@@ -36,7 +35,25 @@ const HelpEmbed = new Discord.MessageEmbed()
 	.setDescription('.register [Your name] \n to register yourself ')
 	.setTimestamp()
 	
+  
+  function getRandom(arr, n) {
+    var result = new Array(n),
+        len = arr.length,
+        taken = new Array(len);
+    if (n > len)
+        throw new RangeError("getRandom: more elements taken than available");
+    while (n--) {
+        var x = Math.floor(Math.random() * len);
+        result[n] = arr[x in taken ? taken[x] : x];
+        taken[x] = --len in taken ? taken[len] : len;
+    }
+    return result;
+}
+
 client.on('message', async message => {
+
+  
+  console.log(usernames)
 
   if (message.author === client.user || message.author.bot) {
     return;
@@ -78,24 +95,23 @@ client.on('message', async message => {
   if (message.content == '.help') {
     message.reply(HelpEmbed);
   }
-  function roll(){
-    var ran0 =message.guild.members.cache.filter(member => member.roles.cache.has('868139408698781756'))
-  .map(member => member.user.username)  
-     ran1 = message.guild.members.cache.random().user;
-     ran2 = message.guild.members.cache.random().user;
-     
-     console.log(ran0)
-     if(ran1 === ran2 || ran1.username == 'mickey bot' ){
-         roll()
-     }
-    }
-     
-//TODO: Add role based action and fix the issue where only the bot and author is being read as members by the bot
   if( message.content == '.electTA'){
-   
-   roll();
-   message.channel.send(`${ran1} and ${ran2}`);
-
+    message.guild.members.cache.forEach(member => {
+      if (!member.user.bot && member.user.username !== message.author.username){
+      usernames.push(member.user.username);
+      }
+    });
+    let ranppl = getRandom(usernames, 2);
+    //Change role ID here to restrict users for this command
+    if (message.member.roles.cache.has('868139408698781756'))
+    { 
+    console.log('User has the required role');
+    message.channel.send(`${ranppl[0]} and ${ranppl[1]} elected as teaching assistants!`);
+    usernames = [];
+  }
+  else{
+    message.reply(`You dont have permission to access this command!`);
+  }
   }
 // Optional greeting function
 
