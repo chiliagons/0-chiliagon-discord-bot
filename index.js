@@ -103,7 +103,7 @@ client.on('message', async message => {
     });
     let ranppl = getRandom(usernames, 2);
     //Change role ID here to restrict users for this command
-    if (message.member.roles.cache.has('868139408698781756'))
+    if (message.member.roles.cache.has(process.env.ROLE_ID))
     { 
     console.log('User has the required role');
     message.channel.send(`${ranppl[0]} and ${ranppl[1]} elected as teaching assistants!`);
