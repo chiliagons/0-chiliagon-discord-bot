@@ -1,4 +1,16 @@
-# Discord Bot
+<div align="center">
+
+# Bleep Bloop🤖
+<img src="logo.png" style="border-radius:50%;" width="15%" />
+</div>
+
+## Commands:
+
+``.help`` - Lists out all the available commands 
+
+``.register`` - To register the user to airtable record
+
+``.electTA`` - To elect random teaching assistants from the server members (admin role required)
 
 ## To run:
 
