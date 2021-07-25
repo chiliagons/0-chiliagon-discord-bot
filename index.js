@@ -58,6 +58,9 @@ client.on('message', async message => {
     return;
   }
 
+  if (message.content == 'bleep'){
+    message.reply(`Bloop🤖`);
+  }
   if (message.content.startsWith('.register')) {
     getUserNames();
     console.log(list);
@@ -83,7 +86,7 @@ client.on('message', async message => {
           console.log(record.getId());
         });
       });
-      message.reply('You have registered successfully!');
+      message.reply('You have registered successfully!✨');
     }
     catch (err) {
       console.log(err);
@@ -105,7 +108,7 @@ client.on('message', async message => {
     if (message.member.roles.cache.has(process.env.ROLE_ID))
     { 
     console.log('User has the required role');
-    message.channel.send(`${ranppl[0]} and ${ranppl[1]} elected as teaching assistants!`);
+    message.channel.send(`${ranppl[0]} and ${ranppl[1]} elected as teaching assistants! 🚀`);
     usernames = [];
   }
   else{
