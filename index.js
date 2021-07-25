@@ -31,7 +31,7 @@ async function getUserNames() {
 const HelpEmbed = new Discord.MessageEmbed()
 	.setColor('#0099ff')
 	.setTitle('Commands')
-	.setDescription('.register [Your name] \n to register yourself ')
+	.setDescription(' ```.register [Your name] ``` \n - To register yourself \n ```.electTA ``` \n - Elect random teaching assistants (can only be accessed by users with admin role) ')
 	.setTimestamp()
 	
   
@@ -49,14 +49,24 @@ const HelpEmbed = new Discord.MessageEmbed()
     return result;
 }
 
+// Greeting function
+client.on('guildMemberAdd', member => {
+  if(!member.user.bot){
+  message.channel.send(`Welcome to the server, ${member}`);
+  }
+});
+
 client.on('message', async message => {
-
   
-  console.log(usernames)
-
   if (message.author === client.user || message.author.bot) {
     return;
   }
+
+  if (message.content.includes("@here") || message.content.includes("@everyone")) return false;
+
+  if (message.mentions.has(client.user.id)) {
+        message.reply(`Hello there! ${message.author}`);
+    };
 
   if (message.content == 'bleep'){
     message.reply(`Bloop🤖`);
@@ -100,7 +110,7 @@ client.on('message', async message => {
   if( message.content == '.electTA'){
     message.guild.members.cache.forEach(member => {
       if (!member.user.bot && member.user.username !== message.author.username){
-      usernames.push(member.user.username);
+      usernames.push(member);
       }
     });
     let ranppl = getRandom(usernames, 2);
@@ -115,13 +125,8 @@ client.on('message', async message => {
     message.reply(`You dont have permission to access this command!`);
   }
   }
-// Optional greeting function
 
-//   client.on('guildMemberAdd', member => {
-//     const channel = member.guild.channels.cache.find(ch => ch.name === 'welcome');
-//     if (!channel) return;
-//     channel.send(`Welcome to the server, ${member}`);
-//   });
+
 }
 );
 
