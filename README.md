@@ -1,7 +1,7 @@
 <div align="center">
 
 # Bleep Bloop🤖
-<img src="logo.png" style="border-radius:50%;" width="15%" />
+<img src="logo.png" width="15%" />
 </div>
 
 ## Commands:
