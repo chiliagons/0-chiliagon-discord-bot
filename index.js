@@ -1,6 +1,7 @@
 const Discord = require('discord.js');
 var Airtable = require('airtable');
 const client = new Discord.Client({fetchAllMembers:true});
+
 require('dotenv').config();
 var list =[];
 var usernames = [];
@@ -11,9 +12,8 @@ var base = new Airtable({ apiKey: process.env.AIRTABLE_APIKEY }).base(process.en
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
   getUserNames();
+  client.user.setActivity('.help', { type: 'PLAYING' })
 });
-
-
 
 //TODO: improve this function to get data on first call
 async function getUserNames() {
@@ -31,7 +31,6 @@ async function getUserNames() {
 const HelpEmbed = new Discord.MessageEmbed()
 	.setColor('#0099ff')
 	.setTitle('Commands')
-	.setAuthor('Mickey', 'https://i.imgur.com/wSTFkRM.png')
 	.setDescription('.register [Your name] \n to register yourself ')
 	.setTimestamp()
 	
