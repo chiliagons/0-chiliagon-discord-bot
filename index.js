@@ -9,15 +9,15 @@ var usernames = [];
 const server = client.guilds.fetch('697821982212751409'); 
 const mySecret = process.env.DISCORD_TOKEN;
 var base = new Airtable({ apiKey: process.env.AIRTABLE_APIKEY }).base(process.env.AIRTABLE_BASEKEY);
-client.on('ready', () => {
+client.on('ready', async () => {
   console.log(`Logged in as ${client.user.tag}!`);
-  getUserNames();
+  await getUserNames();
   client.user.setActivity('.help', { type: 'PLAYING' })
 });
 
 //TODO: improve this function to get data on first call
 async function getUserNames() {
-  base('data').select({
+  base('Student Register').select({
     view: 'Grid view'
   }).firstPage((err, records) => {
     records.forEach(function(record) {
@@ -72,7 +72,7 @@ client.on('message', async message => {
     message.reply(`Bloop🤖`);
   }
   if (message.content.startsWith('.register')) {
-    getUserNames();
+    await getUserNames();
     console.log(list);
     if(list.includes(message.author.username)){
       message.reply('You have already registered!');
@@ -80,7 +80,7 @@ client.on('message', async message => {
     else{
       try {
 
-      base('data').create([
+      base('Student Register').create([
         {
           "fields": {
             "UName": `${message.author.username}`,
@@ -124,6 +124,26 @@ client.on('message', async message => {
   else{
     message.reply(`You dont have permission to access this command!`);
   }
+  }
+  if (message.content === ".s") {
+    try {
+      base('Solidity Course Plan').select({
+        view: 'Grid view'
+      }).firstPage(function(err, records) {
+        records.forEach(function(record) {
+
+          message.channel.send(`\n \n \n **${record.get('Module')}** \n\n ${record.get('Notes')}\n ***Required Readings:*** \n \n ${record.get('Required Reading')} \n ***Start Date :*** ${record.get('Start Date')} \n \n ***Meeting Link: *** \n ${record.get('Meeting link')} \n `)
+        });
+      });
+
+
+
+
+    }
+    catch (err) {
+      console.log(err);
+    }
+
   }
 
 
