@@ -31,7 +31,7 @@ async function getUserNames() {
 const HelpEmbed = new Discord.MessageEmbed()
 	.setColor('#0099ff')
 	.setTitle('Commands')
-	.setDescription(' ```.register [Your name] ``` \n - To register yourself \n ```.electTA ``` \n - Elect random teaching assistants (can only be accessed by users with admin role) ')
+	.setDescription(' ```.register [Your name] ``` \n - To register yourself \n ```.electTA ``` \n - Elect random teaching assistants (can only be accessed by users with admin role) \n ```.show course plan ``` \n -List course plan')
 	.setTimestamp()
 	
   
@@ -113,19 +113,19 @@ client.on('message', async message => {
       usernames.push(member);
       }
     });
-    let ranppl = getRandom(usernames, 2);
+    let ranppl = getRandom(usernames, 3);
     //Change role ID here to restrict users for this command
     if (message.member.roles.cache.has(process.env.ROLE_ID))
     { 
     console.log('User has the required role');
-    message.channel.send(`${ranppl[0]} and ${ranppl[1]} elected as teaching assistants! 🚀`);
+    message.channel.send(`${ranppl[0]} , ${ranppl[1]} and ${ranppl[2]} elected as teaching assistants! 🚀`);
     usernames = [];
   }
   else{
     message.reply(`You dont have permission to access this command!`);
   }
   }
-  if (message.content === ".s") {
+  if (message.content === ".show course plan") {
     try {
       base('Solidity Course Plan').select({
         view: 'Grid view'
