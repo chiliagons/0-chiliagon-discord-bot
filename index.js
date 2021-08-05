@@ -6,7 +6,6 @@ require('dotenv').config();
 var list =[];
 var usernames = [];
 
-const server = client.guilds.fetch('697821982212751409'); 
 const mySecret = process.env.DISCORD_TOKEN;
 var base = new Airtable({ apiKey: process.env.AIRTABLE_APIKEY }).base(process.env.AIRTABLE_BASEKEY);
 client.on('ready', async () => {
