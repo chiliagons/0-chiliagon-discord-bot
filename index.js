@@ -52,7 +52,7 @@ const HelpEmbed = new Discord.MessageEmbed()
 // Greeting function
 client.on('guildMemberAdd', member => {
   if(!member.user.bot){
-  message.channel.send(`Welcome to the server, ${member}`);
+  member.channel.send(`Welcome to the server, ${member}`);
   }
 });
 
@@ -132,7 +132,7 @@ client.on('message', async message => {
       }).firstPage(function(err, records) {
         records.forEach(function(record) {
 
-          message.channel.send(`\n \n \n **${record.get('Module')}** \n\n ${record.get('Notes')}\n ***Required Readings:*** \n \n ${record.get('Required Reading')} \n ***Start Date :*** ${record.get('Start Date')} \n \n ***Meeting Link: *** \n ${record.get('Meeting link')} \n `)
+          message.channel.send(`\n \n \n > **${record.get('Module')}** \n\n ${record.get('Notes')}\n ***Required Readings:*** \n \n ${record.get('Required Reading')} \n ***Start Date :*** ${record.get('Start Date')} \n \n ***Meeting Link: *** \n ${record.get('Meeting link')} \n `)
         });
       });
 
