@@ -49,11 +49,7 @@ const HelpEmbed = new Discord.MessageEmbed()
 }
 
 // Greeting function
-client.on('guildMemberAdd', member => {
-  if(!member.user.bot){
-  member.channel.send(`Welcome to the server, ${member}`);
-  }
-});
+
 
 client.on('message', async message => {
   
