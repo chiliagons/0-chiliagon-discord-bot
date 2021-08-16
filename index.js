@@ -30,7 +30,7 @@ async function getUserNames() {
 const HelpEmbed = new Discord.MessageEmbed()
 	.setColor('#0099ff')
 	.setTitle('Commands')
-	.setDescription(' ```.register [Your name] ``` \n - To register yourself \n ```.electTA ``` \n - Elect random teaching assistants (can only be accessed by users with admin role) \n ```.show course plan ``` \n -List course plan')
+	.setDescription(' ```.register [Your name] ``` \n - To register yourself \n ```.randomVolunteers ``` \n - Choose random volunteers (can only be accessed by users with admin role) \n ```.show course plan ``` \n -List course plan')
 	.setTimestamp()
 	
   
