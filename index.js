@@ -103,7 +103,9 @@ client.on('message', async message => {
     message.reply(HelpEmbed);
   }
   if( message.content == '.randomVolunteers'){
-    message.guild.members.cache.forEach(member => {
+    let channelID = message.channel.id;
+    message.guild.channels.get(channelID).members.forEach((member) => {
+    // message.guild.members.cache.forEach(member => {
       if (!member.user.bot && member.user.username !== message.author.username){
       usernames.push(member);
       }
