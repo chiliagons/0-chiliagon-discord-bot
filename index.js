@@ -104,7 +104,7 @@ client.on('message', async message => {
   }
   if( message.content == '.randomVolunteers'){
     let channelID = message.channel.id;
-    message.guild.channels.get(channelID).members.forEach((member) => {
+    message.guild.channels.cache.get(channelID).members.forEach((member) => {
     // message.guild.members.cache.forEach(member => {
       if (!member.user.bot && member.user.username !== message.author.username){
       usernames.push(member);
