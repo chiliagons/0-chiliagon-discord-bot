@@ -48,8 +48,12 @@ const HelpEmbed = new Discord.MessageEmbed()
     return result;
 }
 
-// Greeting function
-
+// Greeting function (testing left)
+client.on('guildMemberAdd', member => {
+  if(!member.user.bot){
+  member.guild.channels.get(process.env.CHANNEL_ID).send(`Welcome to the server, ${member}`);
+  }
+});
 
 client.on('message', async message => {
   
