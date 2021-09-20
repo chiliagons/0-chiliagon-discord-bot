@@ -10,7 +10,7 @@
 
 ``.register`` - To register the user to airtable record
 
-``.electTA`` - To elect random teaching assistants from the server members (admin role required)
+``.randomVolunteers`` - To choose random volunteers from the server members (admin role required)
 
 ## To run:
 

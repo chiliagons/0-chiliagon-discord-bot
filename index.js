@@ -30,7 +30,7 @@ async function getUserNames() {
 const HelpEmbed = new Discord.MessageEmbed()
 	.setColor('#0099ff')
 	.setTitle('Commands')
-	.setDescription(' ```.register [Your name] ``` \n - To register yourself \n ```.electTA ``` \n - Elect random teaching assistants (can only be accessed by users with admin role) \n ```.show course plan ``` \n -List course plan')
+	.setDescription(' ```.register [Your name] ``` \n - To register yourself \n ```.randomVolunteers ``` \n - Choose random volunteers (can only be accessed by users with admin role) \n ```.show course plan ``` \n -List course plan')
 	.setTimestamp()
 	
   
@@ -106,8 +106,10 @@ client.on('message', async message => {
   if (message.content == '.help') {
     message.reply(HelpEmbed);
   }
-  if( message.content == '.electTA'){
-    message.guild.members.cache.forEach(member => {
+  if( message.content == '.randomVolunteers'){
+    let channelID = message.channel.id;
+    message.guild.channels.cache.get(channelID).members.forEach((member) => {
+    // message.guild.members.cache.forEach(member => {
       if (!member.user.bot && member.user.username !== message.author.username){
       usernames.push(member);
       }
@@ -117,7 +119,7 @@ client.on('message', async message => {
     if (message.member.roles.cache.has(process.env.ROLE_ID))
     { 
     console.log('User has the required role');
-    message.channel.send(`${ranppl[0]} , ${ranppl[1]} and ${ranppl[2]} elected as teaching assistants! 🚀`);
+    message.channel.send(`${ranppl[0]} , ${ranppl[1]} and ${ranppl[2]} chosen as volunteers! 🚀`);
     usernames = [];
   }
   else{
@@ -127,25 +129,17 @@ client.on('message', async message => {
   if (message.content === ".show course plan") {
     try {
       base('Solidity Course Plan').select({
-        view: 'Grid view'
+        view: 'Grid view',
+        filterByFormula: `{Status} = "Todo"`
       }).firstPage(function(err, records) {
-        records.forEach(function(record) {
-
-          message.channel.send(`\n \n \n > **${record.get('Module')}** \n\n ${record.get('Notes')}\n ***Required Readings:*** \n \n ${record.get('Required Reading')} \n ***Start Date :*** ${record.get('Start Date')} \n \n ***Meeting Link: *** \n ${record.get('Meeting link')} \n `)
+          message.channel.send(`\n \n \n > **${records[0].get('Module')}** \n\n ${records[0].get('Notes')}\n ***Required Readings:*** \n \n 
+          ${records[0].get('Required Reading')} \n ***Start Date :*** ${records[0].get('Start Date')} \n \n ***Meeting Link: *** \n ${records[0].get('Meeting link')} \n `)
         });
-      });
-
-
-
-
     }
     catch (err) {
       console.log(err);
     }
-
   }
-
-
 }
 );
 
